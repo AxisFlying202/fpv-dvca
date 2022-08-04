@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name_short">AXIS</string>
+    <string name="app_name_short">AXIS DVR</string>
     <string name="label_help">Help</string>
     <string name="label_example_fragment">Example Fragment</string>
     <string name="label_another_fragment">Another Fragment</string>

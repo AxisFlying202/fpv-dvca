@@ -31,7 +31,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('D:\\RK3566\\sign\\platform.jks')
+            storeFile file('D:\\Project\\RK3566\\sign\\platform.jks')
             keyAlias 'rk3566 platform pkcs 12'
             storePassword '123456'
             keyPassword '123456'
@@ -41,6 +41,7 @@ android {
     buildTypes {
         def proguardRulesRelease = fileTree(dir: "../proguard", include: ["*.pro"]).asList().toArray()
         debug {
+            signingConfig signingConfigs.release
             ext.enableBugsnag = false
             minifyEnabled false
             shrinkResources false
