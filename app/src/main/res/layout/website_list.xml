@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginLeft="75dp"
+    android:layout_marginRight="75dp">
+
+        <ImageView
+            android:id="@+id/qrcode_1"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleType="centerInside"
+            android:background="@drawable/qrcode_website"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qrcode_1"
+            android:layout_alignLeft="@id/qrcode_1"
+            android:layout_alignRight="@id/qrcode_1"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="@string/our_website"/>
+
+        <ImageView
+            android:id="@+id/qrcode_2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleType="centerInside"
+            android:background="@drawable/qrcode_facebook"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qrcode_2"
+            android:layout_alignLeft="@id/qrcode_2"
+            android:layout_alignRight="@id/qrcode_2"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="@string/our_facebook"/>
+
+
+
+        <ImageView
+            android:id="@+id/qrcode_3"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleType="centerInside"
+            android:background="@drawable/qrcode_ins"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/qrcode_3"
+            android:layout_alignLeft="@id/qrcode_3"
+            android:layout_alignRight="@id/qrcode_3"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="@string/our_instagram"/>
+
+</RelativeLayout>

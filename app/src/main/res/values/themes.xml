@@ -17,4 +17,15 @@
     <style name="Theme.LauncherToMainActivity" parent="BaseAppTheme">
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowBackground">#000000</item>
+    </style>
+
+
 </resources>

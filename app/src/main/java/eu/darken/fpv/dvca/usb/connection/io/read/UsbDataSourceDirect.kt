@@ -28,8 +28,10 @@ class UsbDataSourceDirect(
     override fun read(sink: Buffer, byteCount: Long): Long {
         val readBytes = connection.bulkTransfer(sender, transferBuffer, byteCount.toInt(), 200)
 
-        sink.write(transferBuffer, 0, readBytes)
-        sink.flush()
+        if(readBytes > 0) {
+            sink.write(transferBuffer, 0, readBytes)
+            sink.flush()
+        }
 
         bufferBytesRead += readBytes
         val nowMs = SystemClock.elapsedRealtime()

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import eu.darken.fpv.dvca.App
@@ -25,6 +26,11 @@ class GeneralSettingsFragment : SmartFragment(R.layout.settings_fragment) {
     private val vm: GeneralSettingsVM by viewModels()
     private val binding: SettingsFragmentBinding by viewBindingLazy()
 
+    class SettingsFragment : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.root_preferences, rootKey)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -32,6 +38,10 @@ class GeneralSettingsFragment : SmartFragment(R.layout.settings_fragment) {
             toolbar.setNavigationOnClickListener {
                 popBackStack()
             }
+                parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings, SettingsFragment())
+                .commit()
         }
 
         vm.currentReadMode.observe2(this) { readMode ->

@@ -20,14 +20,16 @@ class MainActivity : SmartActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.main_activity)
-
+/* jones
         if (!vm.hasOnboarding.value) {
             navController.navigate(R.id.onboardingFragment)
         }
+ */
     }
-
+/*
     override fun onSupportNavigateUp(): Boolean = navController.navigateUp() || super.onSupportNavigateUp()
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item)
+ */
 }

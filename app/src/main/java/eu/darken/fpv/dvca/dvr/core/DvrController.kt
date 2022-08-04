@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import okio.buffer
+import java.io.File
 import java.time.Instant
 import java.util.*
 import javax.inject.Inject
@@ -68,8 +69,10 @@ class DvrController @Inject constructor(
                 this.minus(existing)
             } else {
                 val target = dvrSettings.dvrStoragePath.value!!
-                val videoFile = DocumentFile.fromTreeUri(context, target)!!
-                    .createFile(MimeTypes.VIDEO_H264, "DVCA-${System.currentTimeMillis()}.mp4")!!
+
+                val videoFile = DocumentFile.fromFile(File(target.toString(), "axis_record_${System.currentTimeMillis()}.mp4"))
+                //val videoFile = DocumentFile.fromSingleUri(context, target)!!
+                //    .createFile(MimeTypes.VIDEO_H264, "DVCA-${System.currentTimeMillis()}.mp4")!!
 
                 var currentDvrSession: DvrRecorder.Session? = null
 

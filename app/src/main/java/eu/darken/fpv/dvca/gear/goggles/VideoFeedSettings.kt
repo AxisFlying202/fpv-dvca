@@ -22,7 +22,7 @@ class VideoFeedSettings @Inject constructor(
         reader = { key ->
             getString(key, null).let { value ->
                 HWEndpoint.ReadMode.values().singleOrNull { it.key == value }
-            } ?: HWEndpoint.ReadMode.DIRECT
+            } ?: HWEndpoint.ReadMode.BUFFER_NOTBLOCKING
         },
         writer = { key, value ->
             putString(key, value.key)

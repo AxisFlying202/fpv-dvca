@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginLeft="75dp"
+    android:layout_marginRight="75dp">
+
+    <ImageView
+        android:id="@+id/license_1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerInside"
+        android:background="@drawable/license_digiview_1"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/license_1"
+        android:layout_alignLeft="@id/license_1"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="@string/license_statement"
+        android:textSize="20sp"/>
+
+    <ImageView
+        android:id="@+id/license_2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerInside"
+        android:background="@drawable/license_digiview_2"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/license_3"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerInside"
+        android:background="@drawable/license_axis"
+        android:layout_alignParentEnd="true"/>
+
+</RelativeLayout>

@@ -9,7 +9,7 @@ import kotlin.concurrent.thread
 class HubSource(private val upstream: Source) {
     private val downStreams = mutableListOf<BufferedSink>()
     private val blackhole = blackholeSink().buffer()
-    private var isRunning = true
+    public var isRunning = true
 
     init {
         thread {

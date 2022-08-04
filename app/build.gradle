@@ -30,19 +30,11 @@ android {
     }
 
     signingConfigs {
-        release {}
-    }
-    def signingPropFile = new File(System.properties['user.home'], ".appconfig/${packageName}/signing.properties")
-    if (signingPropFile.canRead()) {
-        Properties signingProps = new Properties()
-        signingProps.load(new FileInputStream(signingPropFile))
-        signingConfigs {
-            release {
-                storeFile new File(signingProps['release.storePath'])
-                keyAlias signingProps['release.keyAlias']
-                storePassword signingProps['release.storePassword']
-                keyPassword signingProps['release.keyPassword']
-            }
+        release {
+            storeFile file('D:\\RK3566\\sign\\platform.jks')
+            keyAlias 'rk3566 platform pkcs 12'
+            storePassword '123456'
+            keyPassword '123456'
         }
     }
 
@@ -63,9 +55,9 @@ android {
                 fatal 'StopShip'
                 disable 'Instantiatable'
             }
-            ext.enableBugsnag = true
-            minifyEnabled true
-            shrinkResources true
+            ext.enableBugsnag = false
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
             proguardFiles proguardRulesRelease
         }
@@ -131,6 +123,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.preference:preference-ktx:1.1.1'
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     implementation("com.squareup.okio:okio:3.0.0-alpha.4")

@@ -3,6 +3,10 @@ package eu.darken.fpv.dvca.feedplayer.ui.feed
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Environment
+import android.os.storage.StorageManager
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +15,6 @@ import eu.darken.androidstarter.common.logging.i
 import eu.darken.androidstarter.common.logging.w
 import eu.darken.fpv.dvca.App
 import eu.darken.fpv.dvca.common.flow.combine
-import eu.darken.fpv.dvca.common.livedata.SingleLiveEvent
 import eu.darken.fpv.dvca.common.viewmodel.SmartVM
 import eu.darken.fpv.dvca.dvr.GeneralDvrSettings
 import eu.darken.fpv.dvca.dvr.core.DvrController
@@ -20,6 +23,7 @@ import eu.darken.fpv.dvca.gear.GearManager
 import eu.darken.fpv.dvca.gear.goggles.Goggles
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -98,15 +102,19 @@ class FeedPlayerVM @Inject constructor(
     val isMultiplayerInLandscapeAllowed: Boolean
         get() = feedPlayerSettings.isLandscapeMultiplayerEnabled.value
 
-    val dvrStoragePathEvent = SingleLiveEvent<Unit>()
+    //jones val dvrStoragePathEvent = SingleLiveEvent<Unit>()
 
     private var outStandingToggle = 0
     fun onPlayer1RecordToggle() = launch {
+        /* jones
         if (pathSetup()) {
             outStandingToggle = 1
             return@launch
         }
+        */
 
+        var path = getSDCardFolder(context)
+        dvrSettings.dvrStoragePath.update { Uri.parse(path) }
         val goggle = goggle1.first()
         if (goggle == null) {
             w(TAG) { "Can't start Goggle 1 DVR, was null!" }
@@ -135,9 +143,51 @@ class FeedPlayerVM @Inject constructor(
         val recording = dvrController.toggle(goggle)
     }
 
+    fun getDefaultFolder(context: Context): Uri? {
+        var defaultPath = context.getExternalFilesDir("record").toString()
+        return  Uri.parse(defaultPath)
+    }
+
+    fun getSDCardFolder(context: Context): String? {
+        var sdcardMoviesPath = ""
+        val mStorageManager = context.getSystemService(Context.STORAGE_SERVICE) as StorageManager
+        try {
+            val storeManagerClazz = Class.forName("android.os.storage.StorageManager")
+            val getVolumesMethod = storeManagerClazz.getMethod("getVolumes")
+            val volumeInfos = getVolumesMethod.invoke(mStorageManager) as List<*> //获取到了VolumeInfo的列表
+            val volumeInfoClazz = Class.forName("android.os.storage.VolumeInfo")
+            val VolumeInfo_getFsUuid = volumeInfoClazz.getMethod("getFsUuid")
+            val VolumeInfo_GetDisk = volumeInfoClazz.getMethod("getDisk")
+            val pathField = volumeInfoClazz.getDeclaredField("path")
+            val diskInfoClaszz = Class.forName("android.os.storage.DiskInfo")
+            val DiskInfo_IsUsb = diskInfoClaszz.getMethod("isUsb")
+            val DiskInfo_IsSd = diskInfoClaszz.getMethod("isSd")
+            if (volumeInfos != null) {
+                for (volumeInfo in volumeInfos) {
+                    val uuid = VolumeInfo_getFsUuid.invoke(volumeInfo)
+                    if (uuid != null) {
+                        val pathString = pathField[volumeInfo] as String
+                        val diskInfo = VolumeInfo_GetDisk.invoke(volumeInfo) ?: continue
+                        val isSd = DiskInfo_IsSd.invoke(diskInfo) as Boolean
+                        if (isSd) {
+                            sdcardMoviesPath = pathString
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            i(TAG) { "getVolumes error $e"}
+        }
+        if (sdcardMoviesPath !== "") {
+            sdcardMoviesPath += "/" + Environment.DIRECTORY_MOVIES
+        }
+        i(TAG) {"sdcardMoviesPath = $sdcardMoviesPath"}
+        return sdcardMoviesPath;
+    }
+
     private fun pathSetup(): Boolean {
         if (dvrSettings.dvrStoragePath.value == null) {
-            dvrStoragePathEvent.postValue(Unit)
+        //jones    dvrStoragePathEvent.postValue(Unit)
             return true
         }
         return false
